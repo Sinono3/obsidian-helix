@@ -14,7 +14,7 @@ Two ways to do this are using BRAT or manually.
 
 1. [Install BRAT](https://obsidian.md/plugins?search=brat)
 2. Copy the link to this Git repository
-3. Follow [these instructions])(https://tfthacker.com/brat-quick-guide#Adding+a+beta+plugin)
+3. Follow [these instructions](https://tfthacker.com/brat-quick-guide#Adding+a+beta+plugin)
 
 ### Manually
 
