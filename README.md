@@ -21,7 +21,7 @@ Two ways to do this are using BRAT or manually.
 1. Clone the repository into `<your vault directory>/.obsidian/plugins` and then run:
   ```
   $ npm i
-  $ npm run dev
+  $ npm run build
   ```
 2. Go to Settings in Obsidian and enable `Helix Keybindings`.
 
