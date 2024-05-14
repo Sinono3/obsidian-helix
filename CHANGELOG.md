@@ -18,6 +18,8 @@ Types of changes:
 
 ## [0.1.1]
 
+### Changed
+
 - Update to codemirror-helix 0.0.4
 
 ## [0.1.0]
