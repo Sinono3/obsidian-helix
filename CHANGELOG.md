@@ -16,6 +16,10 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.1.1]
+
+- Update to codemirror-helix 0.0.4
+
 ## [0.1.0]
 
 ### Added
