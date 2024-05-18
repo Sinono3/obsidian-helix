@@ -29,4 +29,3 @@ Two ways to do this are using BRAT or manually.
 
 1) Make sure Vim keybindings are disabled in `Options->Editor->Advanced`.
 2) Enable Helix keybindings in the plugin settings or toggle them via the command.
-3) Reload Obsidian. You can do this via the *Reload app without saving* command.

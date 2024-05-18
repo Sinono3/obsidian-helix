@@ -1,5 +1,6 @@
 import { App, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 import { helix } from 'codemirror-helix';
+import { Extension } from '@codemirror/state';
 
 interface HelixSettings {
 	enableHelixKeybindings: boolean;
@@ -11,19 +12,19 @@ const DEFAULT_SETTINGS: HelixSettings = {
 
 export default class HelixPlugin extends Plugin {
 	settings: HelixSettings;
+	extensions: Extension[]
 
 	async onload() {
 		await this.loadSettings();
+		this.extensions = [];
 		this.addSettingTab(new HelixSettingsTab(this.app, this));
-
-		if (this.settings.enableHelixKeybindings) {
-			this.registerEditorExtension([helix()]);
-		}
+		this.setEnabled(this.settings.enableHelixKeybindings, false);
+		this.registerEditorExtension(this.extensions);
 
 		this.addCommand({
 			id: "toggle-helix-keybindings",
 			name: "Toggle Helix keybindings",
-			callback: async () => this.setEnabled(!this.settings.enableHelixKeybindings),
+			callback: async () => this.setEnabled(!this.settings.enableHelixKeybindings, true, true),
 		});
 	}
 
@@ -39,11 +40,16 @@ export default class HelixPlugin extends Plugin {
 		await this.saveData(this.settings);
 	}
 
-	setEnabled(value: boolean) {
+	setEnabled(value: boolean, reload: boolean = true, print: boolean = false) {
 		this.settings.enableHelixKeybindings = value;
+		this.extensions.length = 0;
+		if (value) this.extensions.push(helix());
 		this.saveSettings();
-		const stateMessage = value ? "Enabled" : "Disabled";
-		new Notice(`${stateMessage} Helix keybindings. Please reload Obsidian to see the changes`);
+		if (reload) this.app.workspace.updateOptions();
+		if (print) {
+			const msg = value ? "Enabled" : "Disabled";
+			new Notice(`${msg} Helix keybindings`);
+		}
 	}
 }
 
@@ -59,12 +65,10 @@ class HelixSettingsTab extends PluginSettingTab {
 		const { containerEl } = this;
 
 		containerEl.empty();
-
 		containerEl.createEl("p", { text: "Vim keybindings must be disabled for the plugin to work" });
 
 		new Setting(containerEl)
 			.setName('Enable Helix keybindings')
-			.setDesc('Requires a reload to apply the changes')
 			.addToggle(async (value) => {
 				value
 					.setValue(this.plugin.settings.enableHelixKeybindings)

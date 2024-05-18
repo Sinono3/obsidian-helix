@@ -16,6 +16,10 @@ Types of changes:
 
 ## [Unreleased]
 
+### Changed
+
+- Reload no longer needed to enable or disable the bindings
+
 ## [0.1.1]
 
 ### Changed
