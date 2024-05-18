@@ -19,6 +19,7 @@ Types of changes:
 ### Changed
 
 - Reload no longer needed to enable or disable the bindings
+- Update to codemirror-helix 0.0.5
 
 ## [0.1.1]
 
