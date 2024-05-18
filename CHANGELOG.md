@@ -16,6 +16,12 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.1.3]
+
+### Fixed
+
+- Missing CM6 dependency causing failing build
+
 ## [0.1.2]
 
 ### Changed
