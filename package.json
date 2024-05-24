@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-helix",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "Adds Helix to the Obsidian Markdown editor",
 	"main": "main.js",
 	"scripts": {
