@@ -20,7 +20,7 @@
 		"obsidian": "latest",
 		"tslib": "2.4.0",
 		"typescript": "4.7.4",
-		"codemirror-helix": "^0.0.6",
+		"codemirror-helix": "^0.0.9",
 		"@codemirror/state": "^6.0.0"
 	}
 }
