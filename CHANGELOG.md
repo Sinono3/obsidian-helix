@@ -16,6 +16,8 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.1.6]
+
 ### Added
 
 - Setting to change the cursor type appearing in insert mode. The default is a "bar" cursor, like in Obsidian with Vim bindings.
