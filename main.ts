@@ -4,10 +4,13 @@ import { Extension } from '@codemirror/state';
 
 interface HelixSettings {
 	enableHelixKeybindings: boolean;
+	cursorInInsertMode: "block" | "bar";
 }
 
 const DEFAULT_SETTINGS: HelixSettings = {
-	enableHelixKeybindings: false
+	enableHelixKeybindings: false,
+	// Following the defualt Obsidian behavior, instead of the Helix one.
+	cursorInInsertMode: "bar",
 }
 
 export default class HelixPlugin extends Plugin {
@@ -40,16 +43,22 @@ export default class HelixPlugin extends Plugin {
 		await this.saveData(this.settings);
 	}
 
-	setEnabled(value: boolean, reload: boolean = true, print: boolean = false) {
+	async setEnabled(value: boolean, reload: boolean = true, print: boolean = false) {
 		this.settings.enableHelixKeybindings = value;
 		this.extensions.length = 0;
-		if (value) this.extensions.push(helix());
-		this.saveSettings();
+		if (value) this.extensions.push(helix({
+			"editor.cursor-shape.insert": this.settings.cursorInInsertMode,
+		}));
+		await this.saveSettings();
 		if (reload) this.app.workspace.updateOptions();
 		if (print) {
 			const msg = value ? "Enabled" : "Disabled";
 			new Notice(`${msg} Helix keybindings`);
 		}
+	}
+
+	async reload() {
+		await this.setEnabled(this.settings.enableHelixKeybindings);
 	}
 }
 
@@ -73,6 +82,20 @@ class HelixSettingsTab extends PluginSettingTab {
 				value
 					.setValue(this.plugin.settings.enableHelixKeybindings)
 					.onChange(async (value) => this.plugin.setEnabled(value))
+			});
+		new Setting(containerEl)
+			.setName('Cursor in insert mode')
+			.addDropdown(dropDown => {
+				dropDown.addOption('block', 'Block');
+				dropDown.addOption('bar', 'Bar');
+				dropDown.setValue(this.plugin.settings.cursorInInsertMode)
+				dropDown.onChange(async (value) => {
+					if (value == "block" || value == "bar") {
+						this.plugin.settings.cursorInInsertMode = value;
+						await this.plugin.saveSettings();
+						await this.plugin.reload();
+					}
+				});
 			});
 	}
 }
