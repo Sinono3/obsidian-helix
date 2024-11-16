@@ -16,6 +16,17 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.1.7]
+
+### Changed
+
+- Update codemirror-helix to 0.2.0
+
+### Fixed
+
+- Match-surround not working (#9)
+- Bar-cursor padding causing confusion (#10)
+
 ## [0.1.6]
 
 ### Added
