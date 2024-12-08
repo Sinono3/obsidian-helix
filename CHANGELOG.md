@@ -16,6 +16,12 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.1.8]
+
+### Fixed
+
+- Incorrect version in `manifest.json` (#11 by gyungchaehan)
+
 ## [0.1.7]
 
 ### Changed
