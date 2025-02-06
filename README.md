@@ -29,3 +29,13 @@ Two ways to do this are using BRAT or manually.
 
 1) Make sure Vim keybindings are disabled in `Options->Editor->Advanced`.
 2) Enable Helix keybindings in the plugin settings or toggle them via the command.
+
+### Customize cursor color
+
+By default, the cursor color is the accent color. You can set it to another color by creating a custom CSS snippet for your vault, such as this:
+
+```css
+.cm-hx-block-cursor .cm-hx-cursor {
+  background: red !important;
+}
+```

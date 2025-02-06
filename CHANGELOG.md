@@ -19,6 +19,7 @@ Types of changes:
 ### Added
 
 - Set cursor color based on accent color by default. (#12)
+- Section on README explaining how to customize cursor color. (#12)
 
 ### Changed
 
