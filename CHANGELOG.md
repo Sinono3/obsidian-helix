@@ -16,6 +16,8 @@ Types of changes:
 
 ## [Unreleased]
 
+## [0.1.9]
+
 ### Added
 
 - Set cursor color based on accent color by default. (#12)
