@@ -16,6 +16,10 @@ Types of changes:
 
 ## [Unreleased]
 
+### Added
+
+- Set cursor color based on accent color by default. (#12)
+
 ### Changed
 
 - Update codemirror-helix to 0.3.1

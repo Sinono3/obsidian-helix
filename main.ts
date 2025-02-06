@@ -1,6 +1,7 @@
 import { App, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
 import { helix } from 'codemirror-helix';
 import { Extension, Prec } from '@codemirror/state';
+import { EditorView } from '@codemirror/view';
 
 interface HelixSettings {
 	enableHelixKeybindings: boolean;
@@ -46,11 +47,18 @@ export default class HelixPlugin extends Plugin {
 	async setEnabled(value: boolean, reload: boolean = true, print: boolean = false) {
 		this.settings.enableHelixKeybindings = value;
 		this.extensions.length = 0;
-		if (value) this.extensions.push(Prec.high(helix({
-			config: {
-				"editor.cursor-shape.insert": this.settings.cursorInInsertMode,
-			}
-		})));
+		if (value) {
+			this.extensions.push(Prec.high(EditorView.theme({
+				".cm-hx-block-cursor .cm-hx-cursor": {
+					background: "var(--text-accent)",
+				},
+			})));
+			this.extensions.push(Prec.high(helix({
+				config: {
+					"editor.cursor-shape.insert": this.settings.cursorInInsertMode,
+				}
+			})));
+		}
 		await this.saveSettings();
 		if (reload) this.app.workspace.updateOptions();
 		if (print) {
