@@ -16,6 +16,10 @@ Types of changes:
 
 ## [Unreleased]
 
+### Fixed
+
+- Add `@codemirror/view` to dependencies
+
 ## [0.1.9]
 
 ### Added
