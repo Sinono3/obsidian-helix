@@ -1,5 +1,5 @@
-import { App, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
-import { helix } from 'codemirror-helix';
+import { App, Command, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { externalCommands, helix } from 'codemirror-helix';
 import { Extension, Prec } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 
@@ -47,17 +47,26 @@ export default class HelixPlugin extends Plugin {
 	async setEnabled(value: boolean, reload: boolean = true, print: boolean = false) {
 		this.settings.enableHelixKeybindings = value;
 		this.extensions.length = 0;
+		const helixPlugin = this;
 		if (value) {
-			this.extensions.push(Prec.high(EditorView.theme({
-				".cm-hx-block-cursor .cm-hx-cursor": {
-					background: "var(--text-accent)",
-				},
-			})));
-			this.extensions.push(Prec.high(helix({
-				config: {
-					"editor.cursor-shape.insert": this.settings.cursorInInsertMode,
-				}
-			})));
+			this.extensions.push(
+				Prec.high(EditorView.theme({
+					".cm-hx-block-cursor .cm-hx-cursor": {
+						background: "var(--text-accent)",
+					},
+				})), 
+				Prec.high(helix({
+					config: {
+						"editor.cursor-shape.insert": this.settings.cursorInInsertMode,
+					}
+				})),
+				externalCommands.of({
+					file_picker: () => {
+						// @ts-ignore
+						(helixPlugin.app?.commands?.commands?.["switcher:open"] as Command)?.callback?.()
+					},
+				})
+			);
 		}
 		await this.saveSettings();
 		if (reload) this.app.workspace.updateOptions();
