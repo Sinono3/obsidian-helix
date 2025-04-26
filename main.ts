@@ -47,7 +47,6 @@ export default class HelixPlugin extends Plugin {
 	async setEnabled(value: boolean, reload: boolean = true, print: boolean = false) {
 		this.settings.enableHelixKeybindings = value;
 		this.extensions.length = 0;
-		const helixPlugin = this;
 		if (value) {
 			this.extensions.push(
 				Prec.high(EditorView.theme({
@@ -63,8 +62,17 @@ export default class HelixPlugin extends Plugin {
 				externalCommands.of({
 					file_picker: () => {
 						// @ts-ignore
-						(helixPlugin.app?.commands?.commands?.["switcher:open"] as Command)?.callback?.()
+						(this.app?.commands?.commands?.["switcher:open"] as Command)?.callback?.()
 					},
+					":buffer-close": () => {
+						this.app.workspace.activeLeaf?.detach()
+					},
+					":buffer-next": () => {
+						this.switchTab(1)
+					},
+					":buffer-previous": () => {
+						this.switchTab(-1)
+					}
 				})
 			);
 		}
@@ -74,6 +82,17 @@ export default class HelixPlugin extends Plugin {
 			const msg = value ? "Enabled" : "Disabled";
 			new Notice(`${msg} Helix keybindings`);
 		}
+	}
+
+	switchTab(direction: 1 | -1) {
+		const leaves = this.app.workspace.getLeavesOfType("markdown");
+		const activeLeaf = this.app.workspace.activeLeaf;
+		if (!activeLeaf || leaves.length <= 1) return;
+
+		const currentIndex = leaves.indexOf(activeLeaf);
+		let newIndex = (currentIndex + direction + leaves.length) % leaves.length;
+
+		this.app.workspace.setActiveLeaf(leaves[newIndex], {focus: true})
 	}
 
 	async reload() {
