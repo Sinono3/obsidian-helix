@@ -1,4 +1,4 @@
-import { App, Command, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Command, Notice, Plugin, PluginSettingTab, Setting, SuggestModal, WorkspaceLeaf } from 'obsidian';
 import { externalCommands, helix } from 'codemirror-helix';
 import { Extension, Prec } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
@@ -72,6 +72,10 @@ export default class HelixPlugin extends Plugin {
 					},
 					":buffer-previous": () => {
 						this.switchTab(-1)
+					},
+					buffer_picker: () => {
+						const modal = new BufferModal(this.app)
+						modal.open()
 					}
 				})
 			);
@@ -92,7 +96,7 @@ export default class HelixPlugin extends Plugin {
 		const currentIndex = leaves.indexOf(activeLeaf);
 		let newIndex = (currentIndex + direction + leaves.length) % leaves.length;
 
-		this.app.workspace.setActiveLeaf(leaves[newIndex], {focus: true})
+		this.app.workspace.setActiveLeaf(leaves[newIndex], { focus: true })
 	}
 
 	async reload() {
@@ -136,4 +140,34 @@ class HelixSettingsTab extends PluginSettingTab {
 				});
 			});
 	}
+}
+
+type Buffer = {
+	title: string
+	leaf: WorkspaceLeaf
+};
+
+class BufferModal extends SuggestModal<Buffer> {
+	constructor(app: App) {
+		super(app)
+		this.buffers = this.app.workspace.getLeavesOfType('markdown')
+							.map(a => ({ title: a.getDisplayText(), leaf: a }))
+	}
+
+	buffers: Buffer[] = []
+
+	getSuggestions(query: string): Buffer[] {
+		return this.buffers.filter((buf) =>
+			buf.title.toLowerCase().includes(query.toLowerCase())
+		);
+	}
+
+	renderSuggestion(buf: Buffer, el: HTMLElement) {
+		el.createEl('div', { text: buf.title });
+	}
+
+	onChooseSuggestion(buf: Buffer) {
+		this.app.workspace.setActiveLeaf(buf.leaf, { focus: true })
+	}
+
 }
