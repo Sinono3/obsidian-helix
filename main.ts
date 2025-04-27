@@ -53,7 +53,17 @@ export default class HelixPlugin extends Plugin {
 					".cm-hx-block-cursor .cm-hx-cursor": {
 						background: "var(--text-accent)",
 					},
-				})), 
+					".cm-panel .cm-hx-command-help": {
+						backgroundColor: "var(--modal-background)"
+					},
+					".cm-panel .cm-hx-command-popup": {
+						backgroundColor: "var(--modal-background)",
+						color: "var(--text-normal)",
+						padding: "0 0.5rem",
+						borderColor: "var(--modal-border-color)",
+						borderWidth: "var(--modal-border-width)",
+					}
+				})),
 				Prec.high(helix({
 					config: {
 						"editor.cursor-shape.insert": this.settings.cursorInInsertMode,
