@@ -1,5 +1,5 @@
 import { App, Command, Notice, Plugin, PluginSettingTab, Setting, SuggestModal, WorkspaceLeaf } from 'obsidian';
-import { externalCommands, helix } from 'codemirror-helix';
+import { commands, externalCommands, helix } from 'codemirror-helix';
 import { Extension, Prec } from '@codemirror/state';
 import { EditorView } from '@codemirror/view';
 
@@ -77,7 +77,53 @@ export default class HelixPlugin extends Plugin {
 						const modal = new BufferModal(this.app)
 						modal.open()
 					}
-				})
+				}),
+				commands.of([
+					{
+						name: "vsplit",
+						aliases: ['vs'],
+						help: "Open the file in vertical split",
+						handler: (_view) => {
+							const activeLeaf = this.app.workspace.activeLeaf;
+							if (activeLeaf) {
+								this.app.workspace.duplicateLeaf(activeLeaf, "split", "vertical")
+							}
+						}
+					},
+					{
+						name: "vsplit-new",
+						aliases: ['vnew'],
+						help: "Open a new Note on vertical Split",
+						handler: (_view) => {
+							const activeLeaf = this.app.workspace.activeLeaf;
+							if (activeLeaf) {
+								this.app.workspace.duplicateLeaf(activeLeaf, "split", "vertical")
+							}
+						}
+					},
+					{
+						name: "hsplit",
+						aliases: ['hs'],
+						help: "Open the file in horizontal split",
+						handler: (_view) => {
+							const activeLeaf = this.app.workspace.activeLeaf;
+							if (activeLeaf) {
+								this.app.workspace.duplicateLeaf(activeLeaf, "split", "horizontal")
+							}
+						}
+					},
+					{
+						name: "hsplit-new",
+						aliases: ['hnew'],
+						help: "Open a new Note on Horizontal Split",
+						handler: (_view) => {
+							const activeLeaf = this.app.workspace.activeLeaf;
+							if (activeLeaf) {
+								this.app.workspace.duplicateLeaf(activeLeaf, "split", "horizontal")
+							}
+						}
+					}
+				])
 			);
 		}
 		await this.saveSettings();
