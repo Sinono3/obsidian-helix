@@ -1,3 +1,6 @@
+> [!CAUTION]
+> **Maintainer/owner needed!** This project is looking for a maintainer. Please follow [#18](https://github.com/Sinono3/obsidian-helix/issues/18) for more information.
+
 # Obsidian Helix Keybindings
 
 This plugin enables [Helix](https://helix-editor.com/) keybindings in [Obsidian.md](https://obsidian.md/) using the [Helix CodeMirror6 extension by jrvidal](https://gitlab.com/_rvidal/codemirror-helix).
